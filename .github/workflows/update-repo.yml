@@ -1,0 +1,87 @@
+name: Update APT Repository
+
+on:
+  repository_dispatch:
+    types: [update-apt-repo]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v0.5.1)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+
+      - name: Determine tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "tag=${{ github.event.client_payload.tag }}" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ github.event.inputs.tag }}" ]; then
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            tag=$(curl -s https://api.github.com/repos/chenyhd/essh/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": *"\([^"]*\)".*/\1/')
+            echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download .deb files
+        run: |
+          tag="${{ steps.tag.outputs.tag }}"
+          version="${tag#v}"
+          mkdir -p pool/stable/main
+
+          for arch in amd64 arm64; do
+            url="https://github.com/chenyhd/essh/releases/download/${tag}/essh_${version}_linux_${arch}.deb"
+            echo "Downloading $url"
+            curl -fSL -o "pool/stable/main/essh_${version}_linux_${arch}.deb" "$url"
+          done
+
+      - name: Build APT repository
+        run: |
+          tag="${{ steps.tag.outputs.tag }}"
+          version="${tag#v}"
+
+          for arch in amd64 arm64; do
+            dir="dists/stable/main/binary-${arch}"
+            mkdir -p "$dir"
+
+            # Generate Packages file
+            dpkg-scanpackages --arch "$arch" pool/stable/main > "${dir}/Packages"
+            gzip -9c "${dir}/Packages" > "${dir}/Packages.gz"
+          done
+
+          # Generate Release file
+          cd dists/stable
+          apt-ftparchive release . > Release
+
+          # Sign the Release file
+          gpg --batch --yes --armor --detach-sign -o Release.gpg Release
+          gpg --batch --yes --clearsign -o InRelease Release
+          cd ../..
+
+      - name: Copy GPG public key
+        run: |
+          gpg --armor --export "essh APT repo" > gpg.key
+
+      - name: Deploy to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create orphan gh-pages branch
+          git checkout --orphan gh-pages
+
+          # Stage only the APT repo files
+          git add gpg.key dists/ pool/
+          git commit -m "Update APT repo for ${{ steps.tag.outputs.tag }}"
+          git push -f origin gh-pages

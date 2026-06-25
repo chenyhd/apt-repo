@@ -1,0 +1,15 @@
+Package: essh
+Version: 0.8.2
+Architecture: amd64
+Maintainer: Unset Maintainer <unset@localhost>
+Installed-Size: 3948
+Filename: pool/stable/main/essh_0.8.2_linux_amd64.deb
+Size: 1770376
+MD5sum: f316559c83dbac27e2306a91ca129456
+SHA1: 6ab51aeb6f71718cde29314ca67b05373875c820
+SHA256: 17401260bab79bafd09ee3a28394345ba3d3987e3973c54f85b5af472abe6748
+Priority: optional
+Homepage: https://github.com/chenyhd/essh
+Description: Encrypted SSH client — store server credentials, connect by name
+Architecture-Variant: amd64v1
+
