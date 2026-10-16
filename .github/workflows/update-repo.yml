@@ -62,7 +62,15 @@ jobs:
 
           # Generate Release file
           cd dists/stable
-          apt-ftparchive release . > Release
+          apt-ftparchive \
+            -o APT::FTPArchive::Release::Origin="essh" \
+            -o APT::FTPArchive::Release::Label="essh" \
+            -o APT::FTPArchive::Release::Suite="stable" \
+            -o APT::FTPArchive::Release::Codename="stable" \
+            -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
+            -o APT::FTPArchive::Release::Components="main" \
+            release . > ../Release.tmp
+          mv ../Release.tmp Release
 
           # Sign the Release file
           gpg --batch --yes --armor --detach-sign -o Release.gpg Release
