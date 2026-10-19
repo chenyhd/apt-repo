@@ -1,0 +1,27 @@
+Architectures: amd64 arm64
+Codename: stable
+Components: main
+Date: Mon, 19 Oct 2026 18:44:11 +0000
+Label: essh
+Origin: essh
+Suite: stable
+MD5Sum:
+ 4854e4021b5d0c1c11a7ba961bdc37c0              518 main/binary-amd64/Packages
+ e5cd011f5a3bcc79f18db6194f9e181f              406 main/binary-amd64/Packages.gz
+ c62df4be179bd9d367f6466ea3ac7f83              488 main/binary-arm64/Packages
+ 1e6c46e083a3166c5cb97ec8bc98b40a              392 main/binary-arm64/Packages.gz
+SHA1:
+ 9d628564ed23bbcc937136947225a43b2c98bd75              518 main/binary-amd64/Packages
+ f5e2d3268375ceb07fc4000fb122f8b628ae790a              406 main/binary-amd64/Packages.gz
+ d0c55d34c630fb13953693555f049666046f6ddd              488 main/binary-arm64/Packages
+ 99e2aa3523d4117b045828c02192dc0990f032d5              392 main/binary-arm64/Packages.gz
+SHA256:
+ b32b66c30383ded6c6b07295c96ff724eb86635c21710d2afbbdae6c3f09e8d3              518 main/binary-amd64/Packages
+ 9bcebd841439723f7b6cdbc8a1ee3b39936d7da03f9e720f16adf1e47dd4ced7              406 main/binary-amd64/Packages.gz
+ 8a876c25f5416da0a129e3b87d9fcab5e6cd6317466644ce91b85091c78150d0              488 main/binary-arm64/Packages
+ 5df88b6d4a9f613a278a16585d8c5fb6b10067f9761dca03057e0bbbc8b086e2              392 main/binary-arm64/Packages.gz
+SHA512:
+ ad8e4fffecca852e4129a2f7efc95681c78dec1be807c770886511cab11ef4e0fe6c1b79b20d109f9c0359f7bfc2f4d2e1c065a8c9a62099a3e47a6bd2db5453              518 main/binary-amd64/Packages
+ 8bb263be26321b1bf61690bb7373317bee507546128db08062c341389b239830fa157afba1141f79b5be58576fb56a7e10e66c44c69610c4d795139f64459865              406 main/binary-amd64/Packages.gz
+ 3b3016d986f708335adfdbe96d5bea644c05bbd1038ef09fa922fb934c3fd953443c31d5e676b8dc17f0cad81dc49a21375d79a19cf35e7b7e16a631e1ebc1ac              488 main/binary-arm64/Packages
+ 42bc40dd8a9afad80483ca9d0acddb8659da979cde190d46d3cd87b238cd253ad54468fbe40eaa5647a549f22273745275b7d37b1fac2b5aaf9f60d36beab5cb              392 main/binary-arm64/Packages.gz
